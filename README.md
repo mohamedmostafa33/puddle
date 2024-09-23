@@ -42,3 +42,4 @@
    python manage.py runserver
    ```
    Purpose: Start the server."# django_web_application" 
+"# django_web_application" 
