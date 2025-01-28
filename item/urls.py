@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import delete_review, update_review
 
 app_name = 'item'
 
@@ -12,4 +13,6 @@ urlpatterns = [
     path('cart/add/<int:item_id>/', views.add_to_cart, name='add_to_cart'),
     path('cart/', views.cart_detail, name='cart_detail'), 
     path('cart/remove/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('review/update/<int:review_id>/', update_review, name='update_review'),
+    path('review/delete/<int:review_id>/', delete_review, name='delete_review'),
 ]

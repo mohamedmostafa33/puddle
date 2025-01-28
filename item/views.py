@@ -2,8 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import NewItemForm, EditItemForm
-from .models import Category, Item, Cart, CartItem 
+from .forms import NewItemForm, EditItemForm, ReviewForm
+from .models import Category, Item, Cart, CartItem, Review
 
 
 def items(request):
@@ -28,12 +28,50 @@ def items(request):
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category, is_sold=False).exclude(pk=pk)[0:3]
+    reviews = Review.objects.filter(item=item)
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.item = item
+                review.user = request.user
+                review.save()
+                return redirect('item:detail', pk=item.pk)
+        else:
+            return redirect('login') 
+    else:
+        form = ReviewForm()
 
     return render(request, 'item/detail.html', {
         'item': item,
-        'related_items': related_items
+        'related_items': related_items,
+        'reviews': reviews, 
+        'form': form 
     })
 
+@login_required
+def update_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('item:detail', pk=review.item.pk)
+    else:
+        form = ReviewForm(instance=review)
+
+    return render(request, 'item/update_review.html', {
+        'form': form,
+        'review': review,
+    })
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id, user=request.user)
+    review.delete()
+    return redirect('item:detail', pk=review.item.pk)  
 
 @login_required
 def add_to_cart(request, item_id):
