@@ -3,7 +3,106 @@
 {% block title %}About{% endblock %}
 
 {% block content %}
-    <h1><strong>Team members:</strong></h1>
-    <p>Mohamed Mostafa</p>
-    <p>Osama Hossam</p>
+<div class="max-w-4xl mx-auto my-12">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-500 to-blue-500 p-12 text-white text-center">
+            <h1 class="text-5xl font-bold mb-4">About Puddle</h1>
+            <p class="text-xl text-teal-50">Your Trusted Online Marketplace</p>
+        </div>
+        
+        <div class="p-12">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Our Mission</h2>
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    Puddle is a modern marketplace platform designed to connect buyers and sellers seamlessly. 
+                    We believe in creating a safe, easy-to-use environment where people can buy and sell items 
+                    with confidence. Our platform offers features like real-time messaging, shopping carts, 
+                    product reviews, and more to ensure the best user experience.
+                </p>
+            </div>
+
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Why Choose Puddle?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy to Use</h3>
+                            <p class="text-gray-600">Simple and intuitive interface for both buyers and sellers</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Secure</h3>
+                            <p class="text-gray-600">Built with security best practices to protect your data</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Direct Messaging</h3>
+                            <p class="text-gray-600">Communicate directly with sellers through our inbox system</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Reviews & Ratings</h3>
+                            <p class="text-gray-600">Make informed decisions with product reviews and ratings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Development Team</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                        <div class="w-20 h-20 bg-teal-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
+                            M
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Mohamed Mostafa</h3>
+                        <p class="text-gray-600">Full Stack Developer</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-6 shadow-md text-center">
+                        <div class="w-20 h-20 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
+                            O
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Osama Hossam</h3>
+                        <p class="text-gray-600">Full Stack Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
