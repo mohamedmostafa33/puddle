@@ -7,66 +7,163 @@
         <title>{% block title %}{% endblock %} | Puddle</title>
     </head>
 
-    <body>
+    <body class="bg-gray-50 min-h-screen flex flex-col">
 
-        <nav class="py-6 px-6 flex justify-between items-center border-b border-gray-200">
+        <nav class="py-6 px-6 flex justify-between items-center border-b border-gray-200 bg-white shadow-sm">
             <div class="flex items-center space-x-8">
-                <a href="/" class="text-xl font-semibold">Puddle</a>
-                <a href="{% url 'item:cart_detail' %}" class="px-4 py-2 text-lg font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-700">
-                    Cart
+                <a href="/" class="text-2xl font-bold text-teal-600 hover:text-teal-700 transition-colors">
+                    🛍️ Puddle
                 </a>
-                {% if request.user.is_superuser %}
-                    <a href="{% url 'item:new' %}" class="text-lg font-semibold hover:text-gray-500">New Item</a>
+                
+                <a href="{% url 'item:items' %}" class="text-lg font-semibold text-gray-700 hover:text-teal-600 transition-colors flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                    </svg>
+                    Browse
+                </a>
+                
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'item:new' %}" class="text-lg font-semibold text-gray-700 hover:text-teal-600 transition-colors flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        Sell Item
+                    </a>
                 {% endif %}
             </div>
-            <div class="flex items-center space-x-6">
-                <a href="{% url 'item:items' %}" class="text-lg font-semibold hover:text-gray-500">Browse</a>
+            
+            <div class="flex items-center space-x-4">
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'conversation:inbox' %}" class="px-4 py-2 text-lg font-semibold bg-teal-500 text-white rounded-lg hover:bg-teal-700">
+                    <a href="{% url 'item:cart_detail' %}" class="relative px-4 py-2 text-lg font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                        </svg>
+                        Cart
+                    </a>
+                    
+                    <a href="{% url 'conversation:inbox' %}" class="px-4 py-2 text-lg font-semibold bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                        </svg>
                         Inbox
                     </a>
                     
-                    <a href="{% url 'dashboard:index' %}" class="px-4 py-2 text-lg font-semibold bg-gray-500 text-white rounded-lg hover:bg-gray-700">
+                    <a href="{% url 'dashboard:index' %}" class="px-4 py-2 text-lg font-semibold bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                        </svg>
                         Dashboard
                     </a>
                     
-                    <form method="post" action="{% url 'core:logout' %}" style="display: inline;">
+                    <form method="post" action="{% url 'core:logout' %}" class="inline-block">
                         {% csrf_token %}
-                        <button type="submit" class="px-4 py-2 text-lg font-semibold bg-red-500 text-white rounded-lg hover:bg-red-700">
+                        <button type="submit" class="px-4 py-2 text-lg font-semibold bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                            </svg>
                             Logout
                         </button>
                     </form>
-                    <span class="block mt-2 text-sm font-semibold">Welcome, {{ request.user.username }}</span>
+                    
+                    <div class="text-sm font-semibold text-gray-700 bg-gray-100 px-4 py-2 rounded-lg">
+                        👤 {{ request.user.username }}
+                    </div>
                 {% else %}
-                    <a href="{% url 'core:signup' %}" class="px-4 py-2 text-lg font-semibold bg-teal-500 text-white rounded-lg hover:bg-teal-700">
+                    <a href="{% url 'core:signup' %}" class="px-6 py-2 text-lg font-semibold bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors">
                         Sign up
                     </a>
-                    <a href="{% url 'core:login' %}" class="px-4 py-2 text-lg font-semibold bg-teal-500 text-white rounded-lg hover:bg-teal-700">
+                    <a href="{% url 'core:login' %}" class="px-6 py-2 text-lg font-semibold bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
                         Log in
                     </a>
                 {% endif %}
             </div>
         </nav>
 
-        <div class="px-6 py-6">
+        <div class="flex-grow px-6 py-6">
+            {% if messages %}
+                <div class="max-w-7xl mx-auto mb-6">
+                    {% for message in messages %}
+                        <div class="{% if message.tags == 'error' %}bg-red-50 border-l-4 border-red-500{% elif message.tags == 'success' %}bg-green-50 border-l-4 border-green-500{% elif message.tags == 'warning' %}bg-yellow-50 border-l-4 border-yellow-500{% else %}bg-blue-50 border-l-4 border-blue-500{% endif %} p-4 rounded-lg shadow-md mb-4">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    {% if message.tags == 'error' %}
+                                        <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                        </svg>
+                                    {% elif message.tags == 'success' %}
+                                        <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                    {% elif message.tags == 'warning' %}
+                                        <svg class="h-5 w-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                    {% else %}
+                                        <svg class="h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                        </svg>
+                                    {% endif %}
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium {% if message.tags == 'error' %}text-red-800{% elif message.tags == 'success' %}text-green-800{% elif message.tags == 'warning' %}text-yellow-800{% else %}text-blue-800{% endif %}">
+                                        {{ message }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
             {% block content %}
             {% endblock %}
         </div>
 
-        <footer class="py-6 px-6 flex justify-between bg-gray-800">
-            <div class="w-2/3 pr-10">
-                <h3 class="mb-5 font-semibold text-gray-400">Project</h3>
-                <p class="text-lg text-gray-500">ITI Django project</p>
-            </div>
+        <footer class="mt-12 py-10 px-6 bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="mb-4 text-2xl font-bold text-teal-400">🛍️ Puddle</h3>
+                        <p class="text-gray-400 leading-relaxed">Your trusted marketplace for buying and selling items. Connect with sellers, discover great deals, and shop with confidence.</p>
+                    </div>
 
-            <div class="w-1/3">
-                <h3 class="mb-5 font-semibold text-gray-400">Menu</h3>
-                <ul class="space-y-2">
-                    <li><a href="{% url 'core:about' %}" class="text-lg text-teal-500 hover:text-teal-700">About</a></li>
-                    <li><a href="{% url 'core:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a></li>
-                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Privacy policy</a></li>
-                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Terms of use</a></li>
-                </ul>
+                    <div>
+                        <h3 class="mb-4 font-bold text-lg text-gray-200">Quick Links</h3>
+                        <ul class="space-y-3">
+                            <li><a href="{% url 'item:items' %}" class="text-gray-400 hover:text-teal-400 transition-colors flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                                Browse Items
+                            </a></li>
+                            <li><a href="{% url 'core:about' %}" class="text-gray-400 hover:text-teal-400 transition-colors flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                                About Us
+                            </a></li>
+                            <li><a href="{% url 'core:contact' %}" class="text-gray-400 hover:text-teal-400 transition-colors flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                                Contact
+                            </a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="mb-4 font-bold text-lg text-gray-200">Legal</h3>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                                Privacy Policy
+                            </a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-teal-400 transition-colors flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                                Terms of Use
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-8 border-t border-gray-700 text-center">
+                    <p class="text-gray-400 text-sm">© 2025 Puddle Marketplace. All rights reserved. Built with Django ❤️</p>
+                </div>
             </div>
         </footer>
     </body>
