@@ -4,38 +4,61 @@
 
 {% block content %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text-2xl text-center">Newest items</h2>
+        <h2 class="mb-12 text-2xl text-center font-bold">Newest items</h2>
 
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for item in items %}
-                <div>
-                    <a href="{% url 'item:detail' item.id %}">
-                        <div>
-                            <img src="{{ item.image.url }}" class="rounded-t-xl">
+                <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+                    <a href="{% url 'item:detail' item.id %}" class="block">
+                        <div class="relative h-80 w-full overflow-hidden bg-gray-100">
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" class="w-full h-full object-contain p-4 hover:scale-105 transition-transform duration-300" alt="{{ item.name }}">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            {% endif %}
+                            {% if item.is_sold %}
+                                <div class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Sold</div>
+                            {% else %}
+                                <div class="absolute top-2 right-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Available</div>
+                            {% endif %}
                         </div>
 
-                        <div class="p-6 bg-white rounded-b-xl">
-                            <h2 class="text-2xl">{{ item.name }}</h2>
-                            <p class="text-gray-500">Price: {{ item.price }}</p>
+                        <div class="p-4">
+                            <h2 class="text-xl font-semibold mb-2 truncate" title="{{ item.name }}">{{ item.name }}</h2>
+                            <p class="text-gray-600 text-sm mb-2">By {{ item.created_by.username }}</p>
+                            <div class="flex justify-between items-center">
+                                <p class="text-2xl font-bold text-teal-600">${{ item.price }}</p>
+                                <span class="text-xs text-gray-400">{{ item.created_at|date:"M d, Y" }}</span>
+                            </div>
                         </div>
                     </a>
+                </div>
+            {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500 text-lg">No items available yet.</p>
                 </div>
             {% endfor %}
         </div>
     </div>
 
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text-2xl text-center">Categories</h2>
+        <h2 class="mb-12 text-2xl text-center font-bold">Categories</h2>
 
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {% for category in categories %}
-                <div>
-                    <a href="{% url 'item:items' %}?category={{ category.id }}">
-                        <div class="p-6 bg-white rounded-b-xl">
-                            <h2 class="text-2xl">{{ category.name }}</h2>
-                            <p class="text-gray-500">{{ category.items.count }} items</p>
-                        </div>
-                    </a>
+                <a href="{% url 'item:items' %}?category={{ category.id }}" class="block">
+                    <div class="p-6 bg-white rounded-xl shadow-md hover:shadow-lg hover:bg-teal-50 transition-all duration-300 text-center">
+                        <h2 class="text-xl font-semibold mb-2">{{ category.name }}</h2>
+                        <p class="text-gray-500 text-sm">{{ category.items.count }} items</p>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="col-span-full text-center py-12">
+                    <p class="text-gray-500">No categories yet.</p>
                 </div>
             {% endfor %}
         </div>
