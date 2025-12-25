@@ -32,7 +32,7 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Review for {self.item.title} by {self.user.username}'
+        return f'Review for {self.item.name} by {self.user.username}'
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
