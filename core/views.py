@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 
 from item.models import Category, Item
 
@@ -25,7 +26,8 @@ def signup(request):
 
         if form.is_valid():
             form.save()
-
+            
+            messages.success(request, 'Account created successfully! You can now log in.')
             return redirect('/login/')
     else:
         form = SignupForm()

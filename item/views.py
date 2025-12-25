@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -37,9 +38,11 @@ def detail(request, pk):
                 review.item = item
                 review.user = request.user
                 review.save()
+                messages.success(request, 'Your review has been posted!')
                 return redirect('item:detail', pk=item.pk)
         else:
-            return redirect('login') 
+            messages.error(request, 'You must be logged in to post a review!')
+            return redirect('core:login') 
     else:
         form = ReviewForm()
 
@@ -58,6 +61,7 @@ def update_review(request, review_id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Your review has been updated!')
             return redirect('item:detail', pk=review.item.pk)
     else:
         form = ReviewForm(instance=review)
@@ -70,20 +74,35 @@ def update_review(request, review_id):
 @login_required
 def delete_review(request, review_id):
     review = get_object_or_404(Review, id=review_id, user=request.user)
+    item_pk = review.item.pk
     review.delete()
-    return redirect('item:detail', pk=review.item.pk)  
+    
+    messages.success(request, 'Your review has been deleted!')
+    return redirect('item:detail', pk=item_pk)  
 
 @login_required
 def add_to_cart(request, item_id):
     item = get_object_or_404(Item, id=item_id)
+    
+    # Check if item is sold
+    if item.is_sold:
+        messages.error(request, 'This item is already sold!')
+        return redirect('item:detail', pk=item_id)
+    
+    # Check if user is trying to add their own item
+    if item.created_by == request.user:
+        messages.error(request, 'You cannot add your own item to cart!')
+        return redirect('item:detail', pk=item_id)
+    
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_item, created = CartItem.objects.get_or_create(cart=cart, item=item)
     
     if not created:
         cart_item.quantity += 1
-    cart_item.save()
-
-    print(f"Item added to cart: {item.name}, Quantity: {cart_item.quantity}")
+        cart_item.save()
+        messages.success(request, f'{item.name} quantity updated in cart!')
+    else:
+        messages.success(request, f'{item.name} added to cart successfully!')
 
     return redirect('item:cart_detail')  
 
@@ -97,8 +116,10 @@ def cart_detail(request):
 def remove_from_cart(request, item_id):
     cart = Cart.objects.get(user=request.user)
     cart_item = get_object_or_404(CartItem, cart=cart, item_id=item_id)
+    item_name = cart_item.item.name
     cart_item.delete()
     
+    messages.success(request, f'{item_name} removed from cart!')
     return redirect('item:cart_detail')  
 
 
@@ -111,7 +132,8 @@ def new(request):
             item = form.save(commit=False)
             item.created_by = request.user
             item.save()
-
+            
+            messages.success(request, f'{item.name} has been listed successfully!')
             return redirect('item:detail', pk=item.id)
     else:
         form = NewItemForm()
@@ -130,7 +152,8 @@ def edit(request, pk):
 
         if form.is_valid():
             form.save()
-
+            
+            messages.success(request, f'{item.name} has been updated successfully!')
             return redirect('item:detail', pk=item.id)
     else:
         form = EditItemForm(instance=item)
@@ -143,6 +166,8 @@ def edit(request, pk):
 @login_required
 def delete(request, pk):
     item = get_object_or_404(Item, pk=pk, created_by=request.user)
+    item_name = item.name
     item.delete()
-
+    
+    messages.success(request, f'{item_name} has been deleted successfully!')
     return redirect('dashboard:index')
