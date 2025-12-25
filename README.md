@@ -186,11 +186,6 @@ python manage.py runserver 8080
 python manage.py collectstatic
 ```
 
-## 👥 Development Team
-
-- **Mohamed Mostafa** - Full Stack Developer
-- **Osama Hossam** - Full Stack Developer
-
 ## 🔐 Security Notes
 
 ⚠️ **Important**: This is a development version. Before deploying to production:
@@ -236,4 +231,4 @@ This project is part of an educational assignment.
 
 ---
 
-Made with ❤️ by Mohamed & Osama
+Made with ❤️ using Django
