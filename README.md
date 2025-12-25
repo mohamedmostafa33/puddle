@@ -190,14 +190,64 @@ python manage.py collectstatic
 
 ⚠️ **Important**: This is a development version. Before deploying to production:
 
-1. Change `SECRET_KEY` in settings.py
-2. Set `DEBUG = False`
-3. Configure `ALLOWED_HOSTS`
-4. Use a production database (PostgreSQL recommended)
-5. Set up proper static file serving
-6. Enable HTTPS
-7. Implement CSRF protection
-8. Add rate limiting
+1. Create a `.env` file and set secure values
+2. Set `DJANGO_DEBUG=False`
+3. Configure `DJANGO_ALLOWED_HOSTS`
+4. Configure `DJANGO_CSRF_TRUSTED_ORIGINS`
+5. Use a production database (`DATABASE_URL`)
+6. Collect static files (WhiteNoise enabled)
+7. Enable HTTPS and security flags (`DJANGO_SECURE=True`)
+8. Rotate secrets regularly and add rate limiting
+
+## 🏁 Production Setup
+
+### 1) Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 2) Environment variables (.env)
+Create a file named `.env` in the project root:
+```env
+DJANGO_DEBUG=False
+DJANGO_SECRET_KEY=replace-with-a-long-random-string
+DJANGO_ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
+DJANGO_CSRF_TRUSTED_ORIGINS=https://yourdomain.com,https://www.yourdomain.com
+DJANGO_SECURE=True
+# DATABASE_URL examples
+# sqlite (dev): sqlite:///db.sqlite3
+# postgres (prod): postgres://USER:PASS@HOST:5432/DBNAME
+DATABASE_URL=postgres://USER:PASS@HOST:5432/DBNAME
+```
+
+### 3) Database
+`settings.py` auto-detects `DATABASE_URL`. If missing, it falls back to SQLite.
+
+### 4) Static files
+WhiteNoise is configured; collect static files before starting:
+```bash
+python manage.py collectstatic
+```
+
+### 5) Run
+For development:
+```bash
+python manage.py runserver
+```
+
+For production behind a reverse proxy (example on Linux):
+```bash
+# Install Gunicorn (optional for Linux servers)
+pip install gunicorn
+
+# Run with Gunicorn
+gunicorn puddle.wsgi:application --bind 0.0.0.0:8000
+```
+
+### 6) Notes
+- `ALLOWED_HOSTS` must include the domain/IP serving the app.
+- `CSRF_TRUSTED_ORIGINS` requires scheme (http/https) and no trailing slash.
+- Set `DJANGO_SECURE=True` to enable HSTS, secure cookies, SSL redirect.
 
 ## 🐛 Known Issues & Future Improvements
 
