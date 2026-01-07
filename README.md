@@ -282,3 +282,4 @@ This project is part of an educational assignment.
 ---
 
 Made with ❤️ using Django
+# Test CI
